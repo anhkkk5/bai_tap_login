@@ -45,7 +45,7 @@ passport.use(
       clientID: process.env.GOOGLE_CLIENT_ID || "your-google-client-id",
       clientSecret:
         process.env.GOOGLE_CLIENT_SECRET || "your-google-client-secret",
-      callbackURL: "/auth/google/callback",
+      callbackURL: "/auth/google/callback", // Sử dụng đường dẫn tương đối
       proxy: true, // Quan trọng: cho phép proxy qua Vercel
     },
     (accessToken, refreshToken, profile, done) => {
