@@ -7,10 +7,7 @@ const config = {
   googleClientSecret: process.env.REACT_APP_GOOGLE_CLIENT_SECRET,
 
   // API Configuration - Sử dụng relative path cho production
-  apiBaseUrl:
-    process.env.NODE_ENV === "production"
-      ? process.env.REACT_APP_API_BASE_URL || "/api"
-      : process.env.REACT_APP_API_BASE_URL || "http://localhost:4000",
+  apiBaseUrl: process.env.REACT_APP_API_BASE_URL || "/api",
 };
 
 export default config;
