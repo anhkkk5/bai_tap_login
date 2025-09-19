@@ -1,13 +1,16 @@
 const config = {
   authServerUrl:
     process.env.REACT_APP_AUTH_SERVER_URL || "http://localhost:4000",
-  
+
   // Google OAuth Configuration
   googleClientId: process.env.REACT_APP_GOOGLE_CLIENT_ID,
   googleClientSecret: process.env.REACT_APP_GOOGLE_CLIENT_SECRET,
-  
-  // API Configuration
-  apiBaseUrl: process.env.REACT_APP_API_BASE_URL || "http://localhost:4000",
+
+  // API Configuration - Sử dụng relative path cho production
+  apiBaseUrl:
+    process.env.NODE_ENV === "production"
+      ? process.env.REACT_APP_API_BASE_URL || "/api"
+      : process.env.REACT_APP_API_BASE_URL || "http://localhost:4000",
 };
 
 export default config;

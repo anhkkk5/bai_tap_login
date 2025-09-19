@@ -10,7 +10,10 @@
     },
     {
       "src": "server/src/index.js",
-      "use": "@vercel/node"
+      "use": "@vercel/node",
+      "config": {
+        "includeFiles": ["server/**"]
+      }
     }
   ],
   "routes": [
@@ -20,10 +23,6 @@
     },
     {
       "src": "/auth/(.*)",
-      "dest": "server/src/index.js"
-    },
-    {
-      "src": "/health",
       "dest": "server/src/index.js"
     },
     {
@@ -50,10 +49,11 @@
   "env": {
     "REACT_APP_API_BASE_URL": "/api",
     "PORT": "8080",
-    "CLIENT_URL": "https://your-vercel-app-url.vercel.app",
-    "JWT_SECRET": "your-jwt-secret",
-    "GOOGLE_CLIENT_ID": "your-google-client-id",
-    "GOOGLE_CLIENT_SECRET": "your-google-client-secret"
+    "CLIENT_URL": "https://bai-tap-login-nlr8.vercel.app",
+    "JWT_SECRET": "5a5aa46bcfc348a8002ce5f7c2b5a9d93d70bf483da3b3fc2297bc2780145e4007cfd4a14ab4f643f4668a7997dc8365285070b09787adc37c2b9fc0ccd2f86e",
+    "GOOGLE_CLIENT_ID": "315353763254-q5iqpd10opa0i",
+    "GOOGLE_CLIENT_SECRET": "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",
+    "NODE_ENV": "production"
   },
   "build": {
     "env": {

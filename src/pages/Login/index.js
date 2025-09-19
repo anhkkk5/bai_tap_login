@@ -299,7 +299,7 @@ function Login() {
                     icon={<GoogleOutlined style={{ color: "#ea4335" }} />}
                     style={{ height: 44, borderRadius: 24 }}
                     onClick={() => {
-                      window.location.href = `${config.authServerUrl}/auth/google`;
+                      window.location.href = `${config.apiBaseUrl}/auth/google`;
                     }}
                   >
                     Log in with Google
