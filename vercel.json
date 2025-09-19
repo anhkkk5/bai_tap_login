@@ -7,9 +7,25 @@
       "config": {
         "distDir": "build"
       }
+    },
+    {
+      "src": "server/src/index.js",
+      "use": "@vercel/node"
     }
   ],
   "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "server/src/index.js"
+    },
+    {
+      "src": "/auth/(.*)",
+      "dest": "server/src/index.js"
+    },
+    {
+      "src": "/health",
+      "dest": "server/src/index.js"
+    },
     {
       "src": "/static/(.*)",
       "dest": "/static/$1"
@@ -32,11 +48,16 @@
     }
   ],
   "env": {
-    "REACT_APP_API_BASE_URL": "https://your-backend-api.herokuapp.com"
+    "REACT_APP_API_BASE_URL": "/api",
+    "PORT": "8080",
+    "CLIENT_URL": "https://your-vercel-app-url.vercel.app",
+    "JWT_SECRET": "your-jwt-secret",
+    "GOOGLE_CLIENT_ID": "your-google-client-id",
+    "GOOGLE_CLIENT_SECRET": "your-google-client-secret"
   },
   "build": {
     "env": {
-      "REACT_APP_API_BASE_URL": "https://your-backend-api.herokuapp.com"
+      "REACT_APP_API_BASE_URL": "/api"
     }
   }
 }
