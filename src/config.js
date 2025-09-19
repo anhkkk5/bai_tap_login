@@ -7,7 +7,7 @@ const config = {
   googleClientSecret: process.env.REACT_APP_GOOGLE_CLIENT_SECRET,
   
   // API Configuration
-  apiBaseUrl: process.env.REACT_APP_API_BASE_URL || "http://localhost:5000",
+  apiBaseUrl: process.env.REACT_APP_API_BASE_URL || "http://localhost:4000",
 };
 
 export default config;

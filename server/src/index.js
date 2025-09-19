@@ -10,8 +10,31 @@ const app = express();
 const PORT = process.env.PORT || 4000;
 const CLIENT_URL = process.env.CLIENT_URL || "http://localhost:3000";
 const JWT_SECRET = process.env.JWT_SECRET || "dev-secret";
+const DEV_URLS = ["http://localhost:3000", "http://localhost:3001"];
 
-app.use(cors({ origin: CLIENT_URL, credentials: true }));
+// Cấu hình CORS để chấp nhận request từ nhiều origin
+app.use(cors({ 
+  origin: function(origin, callback) {
+    // Cho phép requests không có origin (như mobile apps hoặc curl requests)
+    if (!origin) return callback(null, true);
+    
+    // Kiểm tra nếu origin nằm trong danh sách cho phép
+    if (process.env.NODE_ENV === 'production') {
+      // Trong môi trường production, chỉ chấp nhận CLIENT_URL
+      if (origin === CLIENT_URL) {
+        return callback(null, true);
+      }
+    } else {
+      // Trong môi trường development, chấp nhận các URL dev
+      if (DEV_URLS.indexOf(origin) !== -1) {
+        return callback(null, true);
+      }
+    }
+    
+    callback(new Error('Not allowed by CORS'));
+  },
+  credentials: true
+}));
 app.use(cookieParser());
 app.use(express.json());
 app.use(passport.initialize());
