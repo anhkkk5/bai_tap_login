@@ -46,6 +46,7 @@ passport.use(
       clientSecret:
         process.env.GOOGLE_CLIENT_SECRET || "your-google-client-secret",
       callbackURL: "/auth/google/callback",
+      proxy: true, // Quan trọng: cho phép proxy qua Vercel
     },
     (accessToken, refreshToken, profile, done) => {
       const user = {
@@ -63,6 +64,12 @@ app.get("/health", (req, res) => res.json({ ok: true }));
 
 app.get(
   "/auth/google",
+  (req, res, next) => {
+    // Lưu URL gốc để sử dụng trong callback
+    const fullUrl = req.protocol + '://' + req.get('host');
+    req.fullHostUrl = fullUrl;
+    next();
+  },
   passport.authenticate("google", { scope: ["profile", "email"] })
 );
 
@@ -78,11 +85,15 @@ app.get(
       JWT_SECRET,
       { expiresIn: "1d" }
     );
+    
+    // Sử dụng CLIENT_URL từ biến môi trường
     const redirectUrl = new URL(CLIENT_URL + "/login");
     redirectUrl.searchParams.set("oauth", "google");
     redirectUrl.searchParams.set("token", token);
     redirectUrl.searchParams.set("name", req.user.name || "");
     redirectUrl.searchParams.set("email", req.user.email || "");
+    
+    // Chuyển hướng đến URL frontend
     res.redirect(redirectUrl.toString());
   }
 );

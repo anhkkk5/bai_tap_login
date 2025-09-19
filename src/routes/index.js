@@ -2,6 +2,7 @@ import React from "react";
 import LayoutDefault from "../Layout/LayoutDefault";
 import ProtectedRoute from "../components/ProtectedRoute";
 import AuthRedirect from "../components/AuthRedirect";
+import AuthRedirectPage from "../pages/AuthRedirect";
 
 import Login from "../pages/Login";
 import Register from "../pages/Register";
@@ -17,6 +18,10 @@ export const routes = [
       {
         index: true,
         element: <AuthRedirect />,
+      },
+      {
+        path: "auth/redirect",
+        element: <AuthRedirectPage />,
       },
       {
         path: "home",
