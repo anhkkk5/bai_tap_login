@@ -1,0 +1,70 @@
+import "dotenv/config";
+import express from "express";
+import cors from "cors";
+import cookieParser from "cookie-parser";
+import jwt from "jsonwebtoken";
+import passport from "passport";
+import { Strategy as GoogleStrategy } from "passport-google-oauth20";
+
+const app = express();
+const PORT = process.env.PORT || 4000;
+const CLIENT_URL = process.env.CLIENT_URL || "http://localhost:3000";
+const JWT_SECRET = process.env.JWT_SECRET || "dev-secret";
+
+app.use(cors({ origin: CLIENT_URL, credentials: true }));
+app.use(cookieParser());
+app.use(express.json());
+app.use(passport.initialize());
+
+passport.use(
+  new GoogleStrategy(
+    {
+      clientID: process.env.GOOGLE_CLIENT_ID || "your-google-client-id",
+      clientSecret:
+        process.env.GOOGLE_CLIENT_SECRET || "your-google-client-secret",
+      callbackURL: "/auth/google/callback",
+    },
+    (accessToken, refreshToken, profile, done) => {
+      const user = {
+        id: profile.id,
+        name: profile.displayName,
+        email: profile.emails?.[0]?.value,
+        avatar: profile.photos?.[0]?.value,
+      };
+      return done(null, user);
+    }
+  )
+);
+
+app.get("/health", (req, res) => res.json({ ok: true }));
+
+app.get(
+  "/auth/google",
+  passport.authenticate("google", { scope: ["profile", "email"] })
+);
+
+app.get(
+  "/auth/google/callback",
+  passport.authenticate("google", {
+    session: false,
+    failureRedirect: CLIENT_URL + "/login?error=google",
+  }),
+  (req, res) => {
+    const token = jwt.sign(
+      { sub: req.user.id, email: req.user.email, name: req.user.name },
+      JWT_SECRET,
+      { expiresIn: "1d" }
+    );
+    const redirectUrl = new URL(CLIENT_URL + "/login");
+    redirectUrl.searchParams.set("oauth", "google");
+    redirectUrl.searchParams.set("token", token);
+    redirectUrl.searchParams.set("name", req.user.name || "");
+    redirectUrl.searchParams.set("email", req.user.email || "");
+    res.redirect(redirectUrl.toString());
+  }
+);
+
+app.listen(PORT, () => {
+  // eslint-disable-next-line no-console
+  console.log(`Auth server running on http://localhost:${PORT}`);
+});

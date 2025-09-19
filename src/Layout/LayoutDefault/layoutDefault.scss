@@ -1,0 +1,127 @@
+.Layout-default {
+  .layout-default__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: #ddd;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+    .layout-default__logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+
+      a {
+        text-decoration: none;
+        color: #1890ff;
+      }
+    }
+
+    .layout-default__nav {
+      .menu {
+        display: flex;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        gap: 2rem;
+
+        li {
+          a {
+            text-decoration: none;
+            color: #333;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: all 0.3s;
+
+            &:hover,
+            &.active {
+              background-color: #1890ff;
+              color: white;
+            }
+          }
+        }
+      }
+    }
+
+    .layout-default__account {
+      display: flex;
+      gap: 1rem;
+
+      .btn {
+        padding: 0.5rem 1rem;
+        text-decoration: none;
+        border-radius: 4px;
+        transition: all 0.3s;
+
+        &.btn-login {
+          color: #1890ff;
+          border: 1px solid #1890ff;
+
+          &:hover,
+          &.active {
+            background-color: #1890ff;
+            color: white;
+          }
+        }
+
+        &.btn-register {
+          background-color: #1890ff;
+          color: white;
+
+          &:hover,
+          &.active {
+            background-color: #096dd9;
+          }
+        }
+      }
+    }
+  }
+}
+
+.menu {
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+
+    li {
+      margin-left: 20px;
+      position: relative;
+    }
+  }
+
+  &__link {
+    color: #000;
+    text-decoration: none;
+    margin-left: 20px;
+
+    &--active {
+      color: #fff;
+    }
+  }
+
+  &__sub {
+    position: absolute;
+    top: 100%;
+    background: red;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    display: none !important;
+
+    li {
+      margin-left: 0 !important;
+    }
+
+    a {
+      white-space: nowrap;
+      display: block;
+      padding: 4px 10px;
+    }
+  }
+
+  li:hover > &__sub {
+    display: flex !important;
+  }
+}
